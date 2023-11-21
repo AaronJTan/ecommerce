@@ -1,0 +1,22 @@
+
+server:
+  port : 8080
+
+spring:
+  application:
+    name: ecommerce-api
+  sql:
+    init:
+      mode: never
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce
+    username: root
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+
+jwt:
+  secret: rtjsdflsdfjlksdlksfdjlsfjldljkfsdkljfdslkjflwern34234234234jkdsf
+  expirationMS: 86400000 #24 hours

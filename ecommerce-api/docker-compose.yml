@@ -1,0 +1,13 @@
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - db:/var/lib/mysql
+#      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/1-init.sql
+#      - ./src/main/resources/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ecommerce
+
+volumes:
+  db:
