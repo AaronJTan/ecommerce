@@ -1,6 +1,8 @@
 services:
   mysql:
     image: mysql
+    ports:
+      - 3306:3306
     volumes:
       - db:/var/lib/mysql
 #      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/1-init.sql
