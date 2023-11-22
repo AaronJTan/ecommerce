@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.payload.request;
 
-import com.ecommerce.productservice.payload.ProductDTO;
+import com.ecommerce.ecommerce.payload.ProductDTO;
 
 import java.math.BigDecimal;
 

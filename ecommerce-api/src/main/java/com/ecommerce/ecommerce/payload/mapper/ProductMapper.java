@@ -1,13 +1,12 @@
-package com.ecommerce.productservice.payload.mapper;
+package com.ecommerce.ecommerce.payload.mapper;
 
-import com.ecommerce.productservice.model.Brand;
-import com.ecommerce.productservice.model.Category;
-import com.ecommerce.productservice.model.Product;
-import com.ecommerce.productservice.model.ProductImage;
-import com.ecommerce.productservice.payload.request.ProductRequestDTO;
+import com.ecommerce.ecommerce.model.Brand;
+import com.ecommerce.ecommerce.model.Category;
+import com.ecommerce.ecommerce.model.Product;
+import com.ecommerce.ecommerce.payload.request.ProductRequestDTO;
 import com.ecommerce.ecommerce.payload.response.ProductResponseDTO;
-import com.ecommerce.productservice.service.BrandService;
-import com.ecommerce.productservice.service.CategoryService;
+import com.ecommerce.ecommerce.service.BrandService;
+import com.ecommerce.ecommerce.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
