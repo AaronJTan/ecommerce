@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +50,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void registerUser(SignupRequest signUpRequest) {
         final String username = signUpRequest.getUsername();
         final String email = signUpRequest.getEmail();
+        validateUserDoesNotExists(username, email);
+        final String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
+        User user = new User(username, email, encodedPassword);
+        assignUserRole(user);
+        userRepository.save(user);
+    }
 
+    private void validateUserDoesNotExists(String username, String email) {
         if (userRepository.existsByUsername(username)) {
             throw new UserRegistrationException("Username is already taken.");
         }
@@ -57,18 +65,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.existsByEmail(email)) {
             throw new UserRegistrationException("Email is already in use.");
         }
+    }
 
-        final String encodedPassword = passwordEncoder.encode(signUpRequest.getPassword());
-        User user = new User(username, email, encodedPassword);
-
+    private void assignUserRole(User user) {
         Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 
-        Set<Role> roles = new HashSet<>() {{
-            add(userRole);
-        }};
-        user.setRoles(roles);
-        userRepository.save(user);
+        user.setRoles(Collections.singleton(userRole));
     }
 
     @Override
