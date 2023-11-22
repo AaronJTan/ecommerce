@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 public class ResponseEntityBuilder {
     private HttpStatus status;
     private Object data;
+    private Object error;
     private String message;
 
     public ResponseEntityBuilder setStatus(HttpStatus status) {
@@ -20,6 +21,11 @@ public class ResponseEntityBuilder {
         return this;
     }
 
+    public ResponseEntityBuilder setError(Object error) {
+        this.error = error;
+        return this;
+    }
+
     public ResponseEntityBuilder setMessage(String message) {
         this.message = message;
         return this;
@@ -29,6 +35,7 @@ public class ResponseEntityBuilder {
         ApiResponse response = ApiResponse.builder()
                 .status(status.getReasonPhrase())
                 .data(data)
+                .error(error)
                 .message(message)
                 .build();
 
