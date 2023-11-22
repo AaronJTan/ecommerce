@@ -1,7 +1,11 @@
 package com.ecommerce.ecommerce.security;
 
+import com.ecommerce.ecommerce.payload.response.ApiResponse;
+import com.ecommerce.ecommerce.payload.response.ResponseEntityBuilder;
 import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,14 +34,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Optional<String> optionalJwt = extractToken(request);
 
-        if (!optionalJwt.isEmpty()) {
-            String jwt = optionalJwt.get();
+        try {
+            if (!optionalJwt.isEmpty()) {
+                String jwt = optionalJwt.get();
 
-            Claims claims = jwtAuthService.getJwtClaims(jwt);
-            UsernamePasswordAuthenticationToken authentication = createUsernamePasswordAuthenticationToken(claims);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                Claims claims = jwtAuthService.getJwtClaims(jwt);
+                UsernamePasswordAuthenticationToken authentication = createUsernamePasswordAuthenticationToken(claims);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception e) {
+            PrintWriter out = response.getWriter();
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            out.print("{\"error\": \"Invalid or expired token\"}");
+            out.flush();
+            return;
         }
-
         filterChain.doFilter(request, response);
     }
 
