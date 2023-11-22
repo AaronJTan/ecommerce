@@ -21,4 +21,4 @@ jwt:
   secret: rtjsdflsdfjlksdlksfdjlsfjldljkfsdkljfdslkjflwern34234234234jkdsf
   expirationMS: 86400000 #24 hours
 
-uploadDir: "/home/aaron/Documents/Development-Ubuntu/Developer Ecommerce/product-service/uploads"
+uploadDir: "/home/aaron/Documents/Development-Ubuntu/Ecommerce/ecommerce-api/uploads"
