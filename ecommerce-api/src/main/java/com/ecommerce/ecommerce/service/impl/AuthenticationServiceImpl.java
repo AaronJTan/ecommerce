@@ -15,6 +15,7 @@ import com.ecommerce.ecommerce.util.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -78,14 +79,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String username = !EmailValidator.isValidEmail(usernameOrEmail) ?
                 usernameOrEmail : userRepository.findUsernameByEmail(usernameOrEmail);
 
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         username,
                         loginRequest.getPassword()
                 )
         );
 
-        User user = (User) userDetailsService.loadUserByUsername(username);
+        User user = (User) authentication.getPrincipal();
 
         return jwtService.generateJwtToken(user);
     }
