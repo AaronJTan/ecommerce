@@ -18,6 +18,6 @@ public class JwtAuthService {
     }
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode("rtjsdflsdfjlksdlksfdjlsfjldljkfsdkljfdslkjflwern34234234234jkdsf"));
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 }
