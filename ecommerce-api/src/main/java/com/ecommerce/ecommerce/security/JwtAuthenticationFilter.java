@@ -1,11 +1,9 @@
 package com.ecommerce.ecommerce.security;
 
-import com.ecommerce.ecommerce.payload.response.ApiResponse;
-import com.ecommerce.ecommerce.payload.response.ResponseEntityBuilder;
+import com.ecommerce.ecommerce.service.JwtService;
 import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,10 +22,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private JwtAuthService jwtAuthService;
+    private JwtService jwtService;
 
-    public JwtAuthenticationFilter(JwtAuthService jwtAuthService) {
-        this.jwtAuthService = jwtAuthService;
+    public JwtAuthenticationFilter(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -38,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (!optionalJwt.isEmpty()) {
                 String jwt = optionalJwt.get();
 
-                Claims claims = jwtAuthService.getJwtClaims(jwt);
+                Claims claims = jwtService.getJwtClaims(jwt);
                 UsernamePasswordAuthenticationToken authentication = createUsernamePasswordAuthenticationToken(claims);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

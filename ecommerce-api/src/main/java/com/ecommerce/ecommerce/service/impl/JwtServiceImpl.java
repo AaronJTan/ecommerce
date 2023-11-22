@@ -2,10 +2,7 @@ package com.ecommerce.ecommerce.service.impl;
 
 import com.ecommerce.ecommerce.model.User;
 import com.ecommerce.ecommerce.service.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -62,5 +59,10 @@ public class JwtServiceImpl implements JwtService {
         }
 
         return false;
+    }
+
+    @Override
+    public Claims getJwtClaims(String jwt) {
+        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(jwt).getBody();
     }
 }
