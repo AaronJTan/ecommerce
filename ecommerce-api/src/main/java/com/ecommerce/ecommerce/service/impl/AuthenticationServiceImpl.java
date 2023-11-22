@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,21 +28,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
 
     @Autowired
     public AuthenticationServiceImpl(JwtService jwtService, PasswordEncoder passwordEncoder,
                                  AuthenticationManager authenticationManager,
                                  UserRepository userRepository,
-                                 RoleRepository roleRepository,
-                                 UserDetailsService userDetailsService
+                                 RoleRepository roleRepository
     ) {
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.userDetailsService = userDetailsService;
     }
     @Override
     public void registerUser(SignupRequest signUpRequest) {
